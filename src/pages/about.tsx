@@ -11,11 +11,18 @@ import {
 } from "@/components/two-column"
 import Image from "next/image"
 import eyecatch from "@/images/about.jpg"
+import { webcrypto } from "crypto"
 
 export default function About() {
   return (
     <Container>
-      <Meta pageTitle="about" pageDesc="About development activities"/>
+      <Meta
+        pageTitle="about"
+        pageDesc="About development activities"
+        pageImg={eyecatch.src}
+        pageImgW={eyecatch.width}
+        pageImgH={eyecatch.height}
+      />
       <Hero title="About" subtitle="About Develoment Activities" />
 
       <figure>
