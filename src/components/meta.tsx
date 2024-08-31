@@ -1,7 +1,8 @@
 import Head from "next/head"
 // サイトに関する情報
 import { siteMeta } from "@/lib/constants"
-const { siteTitle, siteDesc, siteUrl, siteLocale, siteType, siteIcon } = siteMeta
+const { siteTitle, siteDesc, siteUrl, siteLocale, siteType, siteIcon } =
+  siteMeta
 import { useRouter } from "next/router"
 // 汎用OGP画像
 import siteImg from "@/images/ogp.jpg"
@@ -11,10 +12,16 @@ type MetaProps = {
   pageDesc?: string
   pageImg?: string
   pageImgW?: string | number
-  pageImgH?: string |number
+  pageImgH?: string | number
 }
 
-export default function Meta({ pageTitle, pageDesc, pageImg, pageImgW, pageImgH }: MetaProps) {
+export default function Meta({
+  pageTitle,
+  pageDesc,
+  pageImg,
+  pageImgW,
+  pageImgH,
+}: MetaProps) {
   // ページタイトル
   const title = pageTitle ? `${pageTitle} | ${siteTitle}` : siteTitle
   // ページ説明
@@ -27,7 +34,7 @@ export default function Meta({ pageTitle, pageDesc, pageImg, pageImgW, pageImgH 
   const img = pageImg || siteImg.src
   const imgW = pageImgW ? pageImgW.toString() : siteImg.width.toString()
   const imgH = pageImgH ? pageImgH.toString() : siteImg.height.toString()
-  const imgUrl = img.startsWith('https') ? img : `%{siteUrl}${img}`
+  const imgUrl = img.startsWith("https") ? img : `%{siteUrl}${img}`
 
   return (
     <Head>
@@ -51,8 +58,6 @@ export default function Meta({ pageTitle, pageDesc, pageImg, pageImgW, pageImgH 
       <meta property="og:image:width" content={imgW} />
       <meta property="og:image:height" content={imgH} />
       <meta name="twitter:card" content="summary_large_image" />
-
-
     </Head>
   )
 }
