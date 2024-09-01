@@ -1,6 +1,7 @@
 import { getPostBySlug } from "@/lib/api" // APIから投稿を取得する関数をインポート
 import Container from "@/components/container" // コンテナコンポーネントをインポート
-import PostHeader from "@/components/post-header"; // カデゴリヘッダーをインポート
+import PostHeader from "@/components/post-header" // カデゴリヘッダーをインポート
+import Image from "next/image"
 
 // Schedule コンポーネントに渡すプロパティの型定義
 type ScheduleProps = {
@@ -11,7 +12,7 @@ type ScheduleProps = {
     url: string | null
     width: number | null
     height: number | null
-  }
+  } | null
   categories: Array<{ name: string; slug: string }> // カテゴリの配列
 }
 
@@ -26,6 +27,20 @@ export default function Schedule({
   return (
     <Container>
       <PostHeader title={title} subtitle="BlogArticle" publish={publish} />
+
+      {eyecatch && eyecatch.url && eyecatch.width && eyecatch.height && (
+        <figure>
+          <Image
+            src={eyecatch.url}
+            alt=""
+            layout="responsive"
+            width={eyecatch.width}
+            height={eyecatch.height}
+            sizes="(min-width: 1152px) 1152px, 199vw"
+            priority
+          />
+        </figure>
+      )}
     </Container>
   )
 }
