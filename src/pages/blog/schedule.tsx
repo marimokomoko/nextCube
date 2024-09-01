@@ -1,5 +1,6 @@
 import { getPostBySlug } from "@/lib/api" // APIから投稿を取得する関数をインポート
 import Container from "@/components/container" // コンテナコンポーネントをインポート
+import PostHeader from "@/components/post-header"; // カデゴリヘッダーをインポート
 
 // Schedule コンポーネントに渡すプロパティの型定義
 type ScheduleProps = {
@@ -24,7 +25,7 @@ export default function Schedule({
 }: ScheduleProps) {
   return (
     <Container>
-      <h1>{title}</h1>
+      <PostHeader title={title} subtitle="BlogArticle" publish={publish} />
     </Container>
   )
 }
@@ -38,7 +39,7 @@ export async function getStaticProps() {
   return {
     props: {
       title: post.title || null,
-      publish: post.publish || null,
+      publish: post.publishDate || null,
       content: post.content || null,
       eyecatch: post.eyecatch || null,
       categories: post.categories || [],
