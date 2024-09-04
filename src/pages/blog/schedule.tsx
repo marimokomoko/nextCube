@@ -36,7 +36,7 @@ export default function Schedule({
             layout="responsive"
             width={eyecatch.width}
             height={eyecatch.height}
-            sizes="(min-width: 1152px) 1152px, 199vw"
+            sizes="(min-width: 1152px) 1152px, 100vw"
             priority
           />
         </figure>
