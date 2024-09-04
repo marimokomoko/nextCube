@@ -7,6 +7,7 @@ import {
   TwoColumnMain,
   TwoColumnSidebar,
 } from "@/components/two-column"
+import ConvertBody from "@/components/convert-body"
 import Image from "next/image"
 
 // Schedule コンポーネントに渡すプロパティの型定義
@@ -51,13 +52,11 @@ export default function Schedule({
         <TwoColumn>
           <TwoColumnMain>
             <PostBody>
-              {content && (
-                <div dangerouslySetInnerHTML={{ __html: content }} />
-              )}
+              <ConvertBody contentHTML={content} />
             </PostBody>
           </TwoColumnMain>
           <TwoColumnSidebar>
-            {/* サイドバーに何も表示しない場合でも、空のdivを渡す */}
+            {/* サイドバーに何も表s示しない場合でも、空のdivを渡す */}
             <div></div>
           </TwoColumnSidebar>
         </TwoColumn>
