@@ -1,6 +1,12 @@
 import { getPostBySlug } from "@/lib/api" // APIから投稿を取得する関数をインポート
 import Container from "@/components/container" // コンテナコンポーネントをインポート
-import PostHeader from "@/components/post-header" // カデゴリヘッダーをインポート
+import PostHeader from "@/components/post-header" // カテゴリヘッダーをインポート
+import PostBody from "@/components/post-body"
+import {
+  TwoColumn,
+  TwoColumnMain,
+  TwoColumnSidebar,
+} from "@/components/two-column"
 import Image from "next/image"
 
 // Schedule コンポーネントに渡すプロパティの型定義
@@ -26,21 +32,36 @@ export default function Schedule({
 }: ScheduleProps) {
   return (
     <Container>
-      <PostHeader title={title} subtitle="BlogArticle" publish={publish} />
+      <article>
+        <PostHeader title={title} subtitle="BlogArticle" publish={publish} />
 
-      {eyecatch && eyecatch.url && eyecatch.width && eyecatch.height && (
-        <figure>
-          <Image
-            src={eyecatch.url}
-            alt=""
-            layout="responsive"
-            width={eyecatch.width}
-            height={eyecatch.height}
-            sizes="(min-width: 1152px) 1152px, 100vw"
-            priority
-          />
-        </figure>
-      )}
+        {eyecatch && eyecatch.url && eyecatch.width && eyecatch.height && (
+          <figure>
+            <Image
+              src={eyecatch.url}
+              alt=""
+              layout="responsive"
+              width={eyecatch.width}
+              height={eyecatch.height}
+              sizes="(min-width: 1152px) 1152px, 100vw"
+              priority
+            />
+          </figure>
+        )}
+        <TwoColumn>
+          <TwoColumnMain>
+            <PostBody>
+              {content && (
+                <div dangerouslySetInnerHTML={{ __html: content }} />
+              )}
+            </PostBody>
+          </TwoColumnMain>
+          <TwoColumnSidebar>
+            {/* サイドバーに何も表示しない場合でも、空のdivを渡す */}
+            <div></div>
+          </TwoColumnSidebar>
+        </TwoColumn>
+      </article>
     </Container>
   )
 }
