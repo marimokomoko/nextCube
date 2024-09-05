@@ -2,6 +2,7 @@ import { getPostBySlug } from "@/lib/api" // APIから投稿を取得する関�
 import Container from "@/components/container" // コンテナコンポーネントをインポート
 import PostHeader from "@/components/post-header" // カテゴリヘッダーをインポート
 import PostBody from "@/components/post-body"
+import PostCategories from "@/components/post-categories"
 import {
   TwoColumn,
   TwoColumnMain,
@@ -56,8 +57,7 @@ export default function Schedule({
             </PostBody>
           </TwoColumnMain>
           <TwoColumnSidebar>
-            {/* サイドバーに何も表s示しない場合でも、空のdivを渡す */}
-            <div></div>
+            <PostCategories categories={categories} />
           </TwoColumnSidebar>
         </TwoColumn>
       </article>
