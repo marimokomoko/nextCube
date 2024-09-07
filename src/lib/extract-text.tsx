@@ -7,8 +7,8 @@ export function extractText(
 ): string {
   if (!html) return "" // htmlが空なら空文字列を返す
 
-  console.log("-------------------")
-  console.log(html)
+//   console.log("-------------------")
+//   console.log(html)
 
   const text = convert(html, {
     selectors: [
