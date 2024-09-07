@@ -98,6 +98,10 @@ export async function getStaticPaths() {
 // APIデータ取得関数（静的生成用）
 export async function getStaticProps(context: GetStaticPropsContext) {
   const slug = context.params?.slug // // slugがundefinedの可能性もあるので、オプショナルチェーンを使う
+  if (typeof slug !== 'string') {
+    // slugがstringでない場合404表示
+    return { notFound: true }
+  }
   const post = await getPostBySlug(slug) // APIから投稿データを取得
   const desctiption = extractText(post.content) // 投稿本文のHTML文字列からテキストを抽出
   const eyecatch = post.eyecatch ?? eyecatchLocal // アイキャッチ画像が存在しない場合ローカル画像を設定
