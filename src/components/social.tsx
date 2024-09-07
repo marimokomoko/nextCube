@@ -7,9 +7,16 @@ import {
   faGithub,
 } from "@fortawesome/free-brands-svg-icons"
 
-export default function Social({ iconSize = 'initial'}) {
+// iconSize はオプショナルで、デフォルト値は 'initial'
+interface SocialProps {
+  iconSize?: string
+}
+
+export default function Social({ iconSize = 'initial' }: SocialProps) {
   return (
-    <ul className={styles.list} style={{ '--icon-size': iconSize}}>
+    <ul className={styles.list} 
+        // CSSのカスタムプロパティ '--icon-size' を設定
+        style={{ '--icon-size': iconSize } as React.CSSProperties}>
       <li>
         <a href="https://twitter.com/">
           <FontAwesomeIcon icon={faTwitter} />
