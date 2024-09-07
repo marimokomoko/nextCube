@@ -14,6 +14,7 @@ import ConvertBody from "@/components/convert-body" // HTMLコンテンツを変
 import Image from "next/image" // Next.jsの最適化された画像表示コンポーネント
 // import { getPlaiceholder } from "plaiceholder" // プレースホルダー(ぼかし画像)を生成するための巻子
 import { eyecatchLocal } from "@/lib/constants" // ローカル代替アイキャッチ画像
+import { GetStaticPropsContext } from "next" // GetStaticPropsContext 型をインポート
 
 // Schedule コンポーネントに渡すプロパティの型定義
 type ScheduleProps = {
@@ -31,7 +32,7 @@ type ScheduleProps = {
 }
 
 // Schedule コンポーネント
-export default function Schedule({
+export default function Post({
   title,
   publish,
   content,
@@ -87,9 +88,16 @@ export default function Schedule({
   )
 }
 
+export async function getStaticPaths() {
+  return {
+    paths: ["/blog/schedule", "/blog/music", "/blog/micro"],
+    fallback: false,
+  }
+}
+
 // APIデータ取得関数（静的生成用）
-export async function getStaticProps() {
-  const slug = "micro" // 固定のslugを使用してデータを取得
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const slug = context.params?.slug // // slugがundefinedの可能性もあるので、オプショナルチェーンを使う
   const post = await getPostBySlug(slug) // APIから投稿データを取得
   const desctiption = extractText(post.content) // 投稿本文のHTML文字列からテキストを抽出
   const eyecatch = post.eyecatch ?? eyecatchLocal // アイキャッチ画像が存在しない場合ローカル画像を設定
