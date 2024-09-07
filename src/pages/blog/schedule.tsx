@@ -12,6 +12,7 @@ import {
 } from "@/components/two-column" // 2カラムレイアウトに関するコンポーネント群
 import ConvertBody from "@/components/convert-body" // HTMLコンテンツを変換して表示するコンポーネント
 import Image from "next/image" // Next.jsの最適化された画像表示コンポーネント
+// import { getPlaiceholder } from "plaiceholder" // プレースホルダー(ぼかし画像)を生成するための巻子
 import { eyecatchLocal } from "@/lib/constants" // ローカル代替アイキャッチ画像
 
 // Schedule コンポーネントに渡すプロパティの型定義
@@ -23,6 +24,7 @@ type ScheduleProps = {
     url: string | null // アイキャッチ画像のURL
     width: number | null // 画像の幅
     height: number | null // 画像の高さ
+    // blurDataURL?: string // プレースホルダー画像のbase64データ（任意）
   } | null // アイキャッチ画像に関するプロパティ
   categories: Array<{ name: string; slug: string }> // カテゴリの配列
   desctiption: string | null // 投稿本文から抽出したテキスト
@@ -55,13 +57,15 @@ export default function Schedule({
         {eyecatch && eyecatch.url && eyecatch.width && eyecatch.height && (
           <figure>
             <Image
-              src={eyecatch.url}
+              src={eyecatch.url} // 画像のURL
               alt="" // 代替テキストを空に設定
               layout="responsive" // レスポンシブレイアウトに対応
               width={eyecatch.width} // 画像の幅
               height={eyecatch.height} // 画像の高さ
               sizes="(min-width: 1152px) 1152px, 100vw" // 画面サイズに応じたサイズ指定
               priority // 高い優先度で画像をロード
+              // placeholder="blur" // プレースホルダー（ぼかし画像）
+              // blurDataURL={eyecatch.blurDataURL} // プレースホルダー画像のbase64データ
             />
           </figure>
         )}
@@ -88,7 +92,15 @@ export async function getStaticProps() {
   const slug = "micro" // 固定のslugを使用してデータを取得
   const post = await getPostBySlug(slug) // APIから投稿データを取得
   const desctiption = extractText(post.content) // 投稿本文のHTML文字列からテキストを抽出
-  const eyecatch = post.eyecath ?? eyecatchLocal // アイキャッチ画像が存在しない場合ローカル画像を設定
+  const eyecatch = post.eyecatch ?? eyecatchLocal // アイキャッチ画像が存在しない場合ローカル画像を設定
+
+  // WIP:: プレースホルダー画像のbase64データを生成
+  // console.log("*****************************************")
+  // console.log('Image URL:', eyecatch.url);
+
+  // const { base64 } = await getPlaiceholder(eyecatch.url)
+  // eyecatch.blurDataURL = base64
+
   return {
     props: {
       title: post.title || null, // タイトル

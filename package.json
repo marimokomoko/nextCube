@@ -19,9 +19,11 @@
     "html-to-text": "^9.0.5",
     "microcms-js-sdk": "^3.1.2",
     "next": "14.2.5",
+    "plaiceholder": "^3.0.0",
     "react": "^18",
     "react-dom": "^18",
-    "sass": "^1.77.8"
+    "sass": "^1.77.8",
+    "sharp": "^0.33.5"
   },
   "devDependencies": {
     "@types/html-to-text": "^9.0.4",
