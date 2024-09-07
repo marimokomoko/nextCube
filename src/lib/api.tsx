@@ -23,3 +23,19 @@ export async function getPostBySlug(slug: string): Promise<any | undefined> {
     console.log(err)
   }
 }
+
+// 全てのslug（投稿の識別子）を100件まで取得する関数
+export async function getAllSlugs(limit = 100) {
+  try {
+    // APIリクエストを送信し、指定した数(limit)のslug（タイトルとslug）を取得
+    const slugs = await client.get({
+      endpoint: "blogs", // 取得対象のエンドポイント
+      queries: { fields: 'title,slug', orders: '-publishDate', limit: limit } // 取得するフィールドや並び順、取得数の指定
+    })
+    return slugs.contents // 取得された内容（記事の配列）を返す
+  } catch (err) {
+    // エラーが発生した場合にエラーメッセージをコンソールに出力
+    console.log("-- getAllSlugs --")
+    console.log(err) // エラー内容を表示
+  }
+}

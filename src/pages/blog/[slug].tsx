@@ -1,4 +1,4 @@
-import { getPostBySlug } from "@/lib/api" // APIから投稿を取得する関数
+import { getPostBySlug, getAllSlugs } from "@/lib/api" // APIから投稿を取得する関数
 import { extractText } from "@/lib/extract-text" // HTMLからテキストを抽出するための関数
 import Meta from "@/components/meta" // メタ情報設定コンポーネント
 import Container from "@/components/container" // コンテンツ全体を包むコンテナコンポーネント
@@ -88,11 +88,19 @@ export default function Post({
   )
 }
 
+type Slug = {
+  slug: string;
+};
+
 export async function getStaticPaths() {
+  // 全ての slug を取得する関数を呼び出し、ブログ記事の識別子を取得
+  const allSlugs: Slug[] = await getAllSlugs(); // 取得したデータに型を適用
+
   return {
-    paths: ["/blog/schedule", "/blog/music", "/blog/micro"],
-    fallback: false,
-  }
+    // 取得した slug を元に paths を生成し、各 slug に対応するURLパスを定義
+    paths: allSlugs.map(({ slug }) => `/blog/${slug}`), // 例えば /blog/post-slug のようなパスを作成
+    fallback: false, // fallback を false に設定。これにより、定義された paths 以外のルートは404になる
+  };
 }
 
 // APIデータ取得関数（静的生成用）
