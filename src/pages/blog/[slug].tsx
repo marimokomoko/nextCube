@@ -1,5 +1,6 @@
 import { getPostBySlug, getAllSlugs } from "@/lib/api" // APIから投稿を取得する関数
 import { extractText } from "@/lib/extract-text" // HTMLからテキストを抽出するための関数
+import { prevNextPost } from "@/lib/prev-next-pos" // 前後の記事のタイトルとスラッグを表示する関数
 import Meta from "@/components/meta" // メタ情報設定コンポーネント
 import Container from "@/components/container" // コンテンツ全体を包むコンテナコンポーネント
 import PostHeader from "@/components/post-header" // 投稿ページのヘッダー部分（タイトルや公開日）
@@ -121,6 +122,9 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   // const { base64 } = await getPlaiceholder(eyecatch.url)
   // eyecatch.blurDataURL = base64
 
+  const allSlugs = await getAllSlugs() // 全記事取得
+  const [prevPost, nextPost] = prevNextPost(allSlugs, slug) // 前の記事、次の記事を取得
+
   return {
     props: {
       title: post.title || null, // タイトル
@@ -129,6 +133,8 @@ export async function getStaticProps(context: GetStaticPropsContext) {
       eyecatch: eyecatch || null, // アイキャッチ画像情報
       categories: post.categories || [], // カテゴリ
       desctiption: desctiption, // 抽出されたテキスト
+      prevPost: prevPost, // 前の記事
+      nextPost: nextPost // 次の記事
     },
   }
 }
