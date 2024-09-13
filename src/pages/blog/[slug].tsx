@@ -40,6 +40,8 @@ export default function Post({
   eyecatch,
   categories,
   desctiption,
+  prevPost,
+  nextPost
 }: ScheduleProps) {
   return (
     <Container>
@@ -84,6 +86,8 @@ export default function Post({
             <PostCategories categories={categories} />
           </TwoColumnSidebar>
         </TwoColumn>
+        <div>{prevPost.title} {prevPost.slug}</div>
+        <div>{nextPost.title} {nextPost.slug}</div>
       </article>
     </Container>
   )
