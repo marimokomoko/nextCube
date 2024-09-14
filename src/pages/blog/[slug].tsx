@@ -64,6 +64,7 @@ export default function Post({
         {eyecatch && eyecatch.url && eyecatch.width && eyecatch.height && (
           <figure>
             <Image
+              key={eyecatch.url} // Key属性
               src={eyecatch.url} // 画像のURL
               alt="" // 代替テキストを空に設定
               layout="responsive" // レスポンシブレイアウトに対応
