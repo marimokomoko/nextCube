@@ -43,9 +43,6 @@ export async function getStaticProps() {
       post.eyecatch = eyecatchLocal
     }
   }
-  console.log("!!!!!!!!!!!!!!!!!!!!!")
-  console.log(posts)
-
 
   return {
     // 取得した投稿をpropsとしてBlogコンポーネントに渡す
