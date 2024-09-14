@@ -39,3 +39,22 @@ export async function getAllSlugs(limit = 100) {
     console.log(err) // エラー内容を表示
   }
 }
+
+// 全ての記事データを100件まで取得する関数
+export async function getAllPosts(limit = 100) {
+  try {
+    // APIリクエストを送信し、title,slug,eyecatchを取得
+    const posts = await client.get({
+      endpoint: 'blogs',
+      queries: {
+        fields: 'title,slug,eyecatch',
+        orders: '-publishDate',
+        limit: limit,
+      },
+    })
+    return posts.contents
+  } catch (err) {
+    console.log('~~ getAllPosts ~~')
+    console.log(err)
+  }
+}

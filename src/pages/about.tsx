@@ -32,7 +32,7 @@ export default function About() {
           layout="responsive" // Next13~では削除。size設定は別途必要
           sizes="(min-width: 1152px) 1152px, 100vw"
           priority
-          placeholder="blur"
+          // placeholder="blur"
         />
       </figure>
 

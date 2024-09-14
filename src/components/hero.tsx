@@ -22,7 +22,7 @@ export default function Hero({ title, subtitle, imageOn = false }: HeroProps) {
             alt=""
             layout="responsive" // Next13~では削除。size設定は別途必要
             priority
-            placeholder="blur"
+            // placeholder="blur"
           />
         </figure>
       )}
