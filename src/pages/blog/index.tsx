@@ -35,7 +35,7 @@ export default function Blog({ posts }: BlogProps) {
 
 export async function getStaticProps() {
   // 全てのブログ投稿を取得
-  const posts = await getAllPosts();
+  const posts = await getAllPosts(4);
 
   // 代替画像データを取得
   for (const post of posts) {
@@ -43,6 +43,9 @@ export async function getStaticProps() {
       post.eyecatch = eyecatchLocal
     }
   }
+  console.log("!!!!!!!!!!!!!!!!!!!!!")
+  console.log(posts)
+
 
   return {
     // 取得した投稿をpropsとしてBlogコンポーネントに渡す

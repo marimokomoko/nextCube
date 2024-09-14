@@ -31,8 +31,8 @@ type ScheduleProps = {
   } | null // アイキャッチ画像に関するプロパティ
   categories: Array<{ name: string; slug: string }> // カテゴリの配列
   desctiption: string | null // 投稿本文から抽出したテキスト
-  prevPost: string | null // 前の記事
-  nextPost: string | null // 次の記事
+  prevPost: { title: string; slug: string } | null // 前の記事
+  nextPost: { title: string; slug: string } | null // 次の記事
 }
 
 // Schedule コンポーネント
@@ -90,10 +90,10 @@ export default function Post({
           </TwoColumnSidebar>
         </TwoColumn>
         <Pagination
-          prevText={prevPost.title}
-          prevUrl={`/blog/${prevPost.slug}`}
-          nextText={nextPost.title}
-          nextUrl={`/blog/${nextPost.slug}`}
+          prevText={prevPost ? prevPost.title : ""}
+          prevUrl={prevPost ? `/blog/${prevPost.slug}` : ""}
+          nextText={nextPost ? nextPost.title : ""}
+          nextUrl={nextPost ? `/blog/${nextPost.slug}` : ""}
         />
       </article>
     </Container>
@@ -120,7 +120,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   const slug = context.params?.slug // // slugがundefinedの可能性もあるので、オプショナルチェーンを使う
   if (typeof slug !== "string") {
     // slugがstringでない場合404表示
-    return { notFound: "true" }// ★
+    return { notFound: "true" } // ★
   }
   const post = await getPostBySlug(slug) // APIから投稿データを取得
   const desctiption = extractText(post.content) // 投稿本文のHTML文字列からテキストを抽出
