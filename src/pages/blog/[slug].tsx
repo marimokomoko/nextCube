@@ -6,6 +6,7 @@ import Container from "@/components/container" // コンテンツ全体を包む
 import PostHeader from "@/components/post-header" // 投稿ページのヘッダー部分（タイトルや公開日）
 import PostBody from "@/components/post-body" // 投稿本文のスタイリングを担当するコンポーネント
 import PostCategories from "@/components/post-categories" // カテゴリ表示コンポーネント
+import Pagination from "@/components/pagination" // ページネーション表示コンポーネント
 import {
   TwoColumn, // 2カラムレイアウトのベースコンポーネント
   TwoColumnMain, // メインコンテンツ部分のカラム
@@ -30,6 +31,8 @@ type ScheduleProps = {
   } | null // アイキャッチ画像に関するプロパティ
   categories: Array<{ name: string; slug: string }> // カテゴリの配列
   desctiption: string | null // 投稿本文から抽出したテキスト
+  prevPost: string | null // 前の記事
+  nextPost: string | null // 次の記事
 }
 
 // Schedule コンポーネント
@@ -41,7 +44,7 @@ export default function Post({
   categories,
   desctiption,
   prevPost,
-  nextPost
+  nextPost,
 }: ScheduleProps) {
   return (
     <Container>
@@ -86,34 +89,38 @@ export default function Post({
             <PostCategories categories={categories} />
           </TwoColumnSidebar>
         </TwoColumn>
-        <div>{prevPost.title} {prevPost.slug}</div>
-        <div>{nextPost.title} {nextPost.slug}</div>
+        <Pagination
+          prevText={prevPost.title}
+          prevUrl={`/blog/${prevPost.slug}`}
+          nextText={nextPost.title}
+          nextUrl={`/blog/${nextPost.slug}`}
+        />
       </article>
     </Container>
   )
 }
 
 type Slug = {
-  slug: string;
-};
+  slug: string
+}
 
 export async function getStaticPaths() {
   // 全ての slug を取得する関数を呼び出し、ブログ記事の識別子を取得
-  const allSlugs: Slug[] = await getAllSlugs(); // 取得したデータに型を適用
+  const allSlugs: Slug[] = await getAllSlugs() // 取得したデータに型を適用
 
   return {
     // 取得した slug を元に paths を生成し、各 slug に対応するURLパスを定義
     paths: allSlugs.map(({ slug }) => `/blog/${slug}`), // 例えば /blog/post-slug のようなパスを作成
     fallback: false, // fallback を false に設定。これにより、定義された paths 以外のルートは404になる
-  };
+  }
 }
 
 // APIデータ取得関数（静的生成用）
 export async function getStaticProps(context: GetStaticPropsContext) {
   const slug = context.params?.slug // // slugがundefinedの可能性もあるので、オプショナルチェーンを使う
-  if (typeof slug !== 'string') {
+  if (typeof slug !== "string") {
     // slugがstringでない場合404表示
-    return { notFound: true }
+    return { notFound: "true" }// ★
   }
   const post = await getPostBySlug(slug) // APIから投稿データを取得
   const desctiption = extractText(post.content) // 投稿本文のHTML文字列からテキストを抽出
@@ -138,7 +145,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
       categories: post.categories || [], // カテゴリ
       desctiption: desctiption, // 抽出されたテキスト
       prevPost: prevPost, // 前の記事
-      nextPost: nextPost // 次の記事
+      nextPost: nextPost, // 次の記事
     },
   }
 }
