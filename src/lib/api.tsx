@@ -30,7 +30,7 @@ export async function getAllSlugs(limit = 100) {
     // APIリクエストを送信し、指定した数(limit)のslug（タイトルとslug）を取得
     const slugs = await client.get({
       endpoint: "blogs", // 取得対象のエンドポイント
-      queries: { fields: 'title,slug', orders: '-publishDate', limit: limit } // 取得するフィールドや並び順、取得数の指定
+      queries: { fields: "title,slug", orders: "-publishDate", limit: limit }, // 取得するフィールドや並び順、取得数の指定
     })
     return slugs.contents // 取得された内容（記事の配列）を返す
   } catch (err) {
@@ -45,16 +45,33 @@ export async function getAllPosts(limit = 100) {
   try {
     // APIリクエストを送信し、title,slug,eyecatchを取得
     const posts = await client.get({
-      endpoint: 'blogs',
+      endpoint: "blogs",
       queries: {
-        fields: 'title,slug,eyecatch',
-        orders: '-publishDate',
+        fields: "title,slug,eyecatch",
+        orders: "-publishDate",
         limit: limit,
       },
     })
     return posts.contents
   } catch (err) {
-    console.log('~~ getAllPosts ~~')
+    console.log("~~ getAllPosts ~~")
+    console.log(err)
+  }
+}
+
+// カテゴリデータを100件まで取得する関数
+export async function getAllCategories(limit = 100) {
+  try {
+    const categories = await client.get({
+      endpoint: "categories",
+      queries: {
+        fields: "name,id,slug",
+        limit: limit,
+      },
+    })
+    return categories.contents
+  } catch (err) {
+    console.log("~~ getAllCategories ~~")
     console.log(err)
   }
 }
